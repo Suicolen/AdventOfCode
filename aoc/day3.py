@@ -1,6 +1,5 @@
 import re
 
-
 def get_input(path):
     with open(path) as file: return file.read()
 
@@ -14,13 +13,13 @@ def part1():
 def part2():
     data = get_input("../input/day3input.txt")
     matches = re.findall(r"(don't|do)|mul\((\d+),(\d+)\)", data)
-    sum, do_flag = 0, True
+    total, enabled = 0, True
     for token, a, b in matches:
         if token:
-            do_flag = (token == "do")
-        elif do_flag:
-            sum += int(a) * int(b)
-    return sum
+            enabled = (token == "do")
+        elif enabled:
+            total += int(a) * int(b)
+    return total
 
 
 def solutions():
