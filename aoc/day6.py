@@ -36,7 +36,7 @@ def find_initial_pos_and_dir(grid, rows, cols):
     )
 
 
-def count_guard_positions(grid):
+def compute_visited_positions(grid):
     rows, cols = len(grid), len(grid[0])
     guard_pos, guard_dir = find_initial_pos_and_dir(grid, rows, cols)
     visited = {guard_pos}
@@ -52,7 +52,7 @@ def count_guard_positions(grid):
             guard_pos = (new_row, new_col)
             visited.add(guard_pos)
 
-    return len(visited)
+    return visited
 
 
 def simulate_with_obstacle(grid, rows, cols, obstacle_pos, guard_pos, guard_dir):
@@ -77,7 +77,7 @@ def simulate_with_obstacle(grid, rows, cols, obstacle_pos, guard_pos, guard_dir)
 
 def part1():
     grid = get_grid()
-    return count_guard_positions(grid)
+    return len(compute_visited_positions(grid))
 
 
 def part2():
@@ -85,9 +85,9 @@ def part2():
     rows, cols = len(grid), len(grid[0])
     guard_pos, guard_dir = find_initial_pos_and_dir(grid, rows, cols)
     return sum(
-        simulate_with_obstacle(grid, rows, cols, (row, col), guard_pos, guard_dir)
-        for row in range(rows) for col in range(cols)
-        if grid[row][col] == '.' and (row, col) != guard_pos
+        simulate_with_obstacle(grid, rows, cols, pos, guard_pos, guard_dir)
+        for pos in compute_visited_positions(grid)
+        if grid[pos[0]][pos[1]] == '.' and pos != guard_pos
     )
 
 
